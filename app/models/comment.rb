@@ -11,7 +11,7 @@ class Comment < ApplicationRecord
   def create_conversation_history_for_comment_create
     project.project_conversation_histories.create!(
       history_type: ProjectConversationHistory.history_types[:comment_created],
-      user: User.first,
+      user: Current.user,
       previous_value: nil,
       new_value: "[comment-id-#{id}] #{message}"
     )
@@ -22,7 +22,7 @@ class Comment < ApplicationRecord
 
     project.project_conversation_histories.create!(
       history_type: ProjectConversationHistory.history_types[:comment_updated],
-      user: User.first,
+      user: Current.user,
       previous_value: "[comment-id-#{id}] #{previous_message}",
       new_value: "[comment-id-#{id}] #{new_message}"
     )
@@ -31,7 +31,7 @@ class Comment < ApplicationRecord
   def create_conversation_history_for_comment_delete
     project.project_conversation_histories.create!(
       history_type: ProjectConversationHistory.history_types[:comment_deleted],
-      user: User.first,
+      user: Current.user,
       previous_value: "[comment-id-#{id}] #{message}",
       new_value: "DELETED"
     )
