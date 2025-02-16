@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :projects do
     resources :comments
+    resources :project_conversation_histories, only: :show
   end
   resource :session
   resources :passwords, param: :token

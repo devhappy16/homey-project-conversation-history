@@ -14,4 +14,12 @@
   <div class="inline-block ml-2">
     <%= button_to "Destroy this project", @project, method: :delete, class: "mt-2 rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium" %>
   </div>
+
+  <% if @project.project_conversation_histories.present? %>
+    <h3> Conversation Histories </h3>
+
+    <% @project.project_conversation_histories.each do |project_conv_history| %>
+      <%= render project_conv_history %>
+    <% end %>
+  <% end %>
 </div>

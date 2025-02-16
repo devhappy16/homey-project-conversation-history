@@ -26,10 +26,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_16_103737) do
 
   create_table "project_conversation_histories", force: :cascade do |t|
     t.bigint "project_id", null: false
+    t.bigint "user_id", null: false
     t.integer "history_type"
+    t.text "previous_value"
+    t.text "new_value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["project_id"], name: "index_project_conversation_histories_on_project_id"
+    t.index ["user_id"], name: "index_project_conversation_histories_on_user_id"
   end
 
   create_table "project_users", force: :cascade do |t|
@@ -72,6 +76,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_16_103737) do
   add_foreign_key "comments", "projects"
   add_foreign_key "comments", "users"
   add_foreign_key "project_conversation_histories", "projects"
+  add_foreign_key "project_conversation_histories", "users"
   add_foreign_key "project_users", "projects"
   add_foreign_key "project_users", "users"
   add_foreign_key "sessions", "users"
