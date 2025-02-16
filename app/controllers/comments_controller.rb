@@ -4,7 +4,7 @@ class CommentsController < ApplicationController
 
   # GET /comments or /comments.json
   def index
-    @comments = Comment.all
+    @comments = Project.find(params[:project_id]).comments
   end
 
   # GET /comments/1 or /comments/1.json

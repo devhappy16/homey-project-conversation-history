@@ -1,12 +1,25 @@
-<hr class="border-gray-300">
+<hr class="border-gray-300 mt-2">
 <div>
-  <%= history.history_type %> by <%= history.user.email_address %>
-  <div>
-    <span class="font-bold">Previous Value:</span>
-    <span><%= history.previous_value %></span>
+  <div class="my-2 text-red-500">
+    <span class="font-semibold"><%= history.history_type %></span>
+    <span> by </span>
+    <span class="font-semibold">
+      <%= history.user.email_address %>
+    </span>
+    <span> on </span>
+    <span class="font-semibold">
+      <%= history.created_at.strftime("%Y-%m-%d %H:%M:%S") %>
+    </span>
   </div>
+
+  <% if history.previous_value.present? %>
+    <div>
+      <span class="font-semibold">Previous Value:</span>
+      <span><%= history.previous_value %></span>
+    </div>
+  <% end %>
   <div>
-    <span class="font-bold">New Value:</span>
+    <span class="font-semibold">Current Value:</span>
     <span><%= history.new_value %></span>
   </div>
 </div>
