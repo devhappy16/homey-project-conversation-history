@@ -32,7 +32,7 @@ class CommentsTest < ApplicationSystemTestCase
 
   test "should destroy Comment" do
     visit comment_url(@comment)
-    click_on "Destroy this comment", match: :first
+    click_on "Delete this comment", match: :first
 
     assert_text "Comment was successfully destroyed"
   end

@@ -13,10 +13,12 @@
   <div id="projects" class="min-w-full">
     <% if @projects.any? %>
       <% @projects.each do |project| %>
-        <%= render project %>
-        <p>
-          <%= link_to "Show this project", project, class: "rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-        </p>
+        <div class="bg-gray-200 px-3 py-0.5 rounded-md my-2">
+          <%= render project %>
+          <p>
+            <%= link_to "Show this project", project, class: "rounded-md p-3.5 py-2.5 bg-green-300 hover:bg-green-200 text-gray-600 inline-block font-medium mb-2" %>
+          </p>
+        </div>
       <% end %>
     <% else %>
       <p class="text-center my-10">No projects found.</p>

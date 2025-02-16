@@ -23,7 +23,16 @@
   </head>
 
   <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+    <header class="fixed top-0 left-0 w-full bg-gray-100 py-4 z-50">
+      <div class="container mx-auto px-5 flex justify-between items-center hover:text-gray-600">
+        <%= link_to "Homey Project", root_path, class: "text-xl font-bold" %>
+        <% if Current.user %>
+          <%= button_to "Logout", session_path, method: :delete,
+              class: "rounded-md px-3.5 py-2.5 bg-red-600 hover:bg-red-500 text-white font-medium" %>
+        <% end %>
+      </div>
+    </header>
+    <main class="container mt-28 mx-auto flex justify-between">
       <%= yield %>
     </main>
   </body>
