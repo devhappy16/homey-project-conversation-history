@@ -8,6 +8,7 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
+puts ">>>> Running initial seed."
 
 User.create(email_address: "admin@homeyproject.com", password: "base8848", role: User.roles[:admin])
 User.create(email_address: "manager@homeyproject.com", password: "base8848", role: User.roles[:manager])

@@ -33,7 +33,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_16_103737) do
   end
 
   create_table "project_users", force: :cascade do |t|
-    t.bigint "project_id", null: false
+    t.bigint "project_id"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
