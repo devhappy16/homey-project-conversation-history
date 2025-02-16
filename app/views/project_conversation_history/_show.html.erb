@@ -1,0 +1,12 @@
+<hr class="border-gray-300">
+<div>
+  <%= history.history_type %> by <%= history.user.email_address %>
+  <div>
+    <span class="font-bold">Previous Value:</span>
+    <span><%= history.previous_value %></span>
+  </div>
+  <div>
+    <span class="font-bold">New Value:</span>
+    <span><%= history.new_value %></span>
+  </div>
+</div>
