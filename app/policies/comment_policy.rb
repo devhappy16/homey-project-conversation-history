@@ -1,7 +1,7 @@
 class CommentPolicy < ApplicationPolicy
-  # def index?
-  #   user.admin? || (user.projects.include? record.project)
-  # end
+  def index?
+    true
+  end
 
   def show?
     index?
@@ -25,6 +25,6 @@ class CommentPolicy < ApplicationPolicy
   end
 
   def destroy?
-    user.admin?
+    user.admin? || edit?
   end
 end

@@ -1,9 +1,10 @@
 class ProjectsController < ApplicationController
   before_action :set_project, only: %i[ show edit update destroy ]
+  before_action :authorize_project
 
   # GET /projects or /projects.json
   def index
-    @projects = Project.all
+    @projects = policy_scope(Project)
   end
 
   # GET /projects/1 or /projects/1.json
@@ -37,7 +38,16 @@ class ProjectsController < ApplicationController
   # PATCH/PUT /projects/1 or /projects/1.json
   def update
     respond_to do |format|
-      if @project.update(project_params)
+      # Handle manager assignment
+      if project_params[:manager_id].present?
+        manager = User.manager.find_by(id: project_params[:manager_id])
+        if manager
+          @project.project_users.where(user: @project.users.manager).destroy_all
+          @project.project_users.build(user: manager)
+        end
+      end
+
+      if @project.update(project_params.except(:manager_id))
         format.html { redirect_to @project, notice: "Project was successfully updated." }
         format.json { render :show, status: :ok, location: @project }
       else
@@ -66,5 +76,13 @@ class ProjectsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def project_params
       params.require(:project).permit(:name, :status, :description, :start_date, :end_date, :manager_user_id, user_ids: [])
+    end
+
+    def authorize_project
+      if @project
+        authorize @project
+      else
+        authorize Project
+      end
     end
 end

@@ -1,44 +1,46 @@
 class ProjectPolicy < ApplicationPolicy
   def index?
-    user.admin? || (user.projects.include? record)
+    true
   end
 
   def show?
-    index?
-  end
-
-  def new?
-    # only admin can create new projects
-    user.admin?
-  end
-
-  def edit?
-    user.admin? || (user.manager? && (user.projects.include? record))
+    user.admin? || (record.manager_user_id == user.id) || (user.projects.include? record)
   end
 
   def create?
-    new?
+    user.admin?
+  end
+
+  def new?
+    create?
   end
 
   def update?
-    edit?
+    user.admin? || (record.manager_user_id == user.id)
+  end
+
+  def edit?
+    update?
   end
 
   def destroy?
-    # only admins can delete projects
-    new?
+    user.admin?
   end
 
-  class Scope
+  class Scope < Scope
     def initialize(user, scope)
       @user = user
       @scope = scope
     end
 
     def resolve
-      # TODO: implement pundit scoping later
-      # scope.where(project_id)
-      scope.all
+      if user.admin?
+        scope.all
+      elsif user.manager?
+        scope.where(manager_user_id: user.id)
+      else # user.member?
+        user.projects
+      end
     end
 
     private
