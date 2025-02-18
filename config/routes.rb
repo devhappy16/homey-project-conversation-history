@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :projects do
-    resources :comments
+    resources :comments, except: :show
     resources :project_conversation_histories, only: :show
   end
   resource :session

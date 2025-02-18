@@ -1,11 +1,12 @@
 class CommentsController < ApplicationController
   before_action :set_project
-  before_action :set_comment, only: %i[ show edit update destroy ]
+  before_action :set_comment, only: %i[ edit update destroy ]
+  before_action :build_comment, only: %i[ new ] # TODO: merge set_comment, build_comment
   before_action :authorize_comment
 
   # GET /comments or /comments.json
   def index
-    @comments = Project.find(params[:project_id]).comments
+    @comments = @project.comments
   end
 
   # GET /comments/1 or /comments/1.json
@@ -14,7 +15,6 @@ class CommentsController < ApplicationController
 
   # GET /comments/new
   def new
-    @comment = @project.comments.build
   end
 
   # GET /comments/1/edit
@@ -69,15 +69,15 @@ class CommentsController < ApplicationController
       @comment = @project.comments.find(params[:id])
     end
 
+    def build_comment
+      @comment = @project.comments.build
+    end
+
     def comment_params
       params.require(:comment).permit(:message)
     end
 
     def authorize_comment
-      if @comment
-        authorize @comment
-      else
-        authorize Comment
-      end
+      authorize @comment
     end
 end
