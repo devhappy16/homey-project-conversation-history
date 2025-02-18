@@ -7,21 +7,26 @@ class CommentPolicy < ApplicationPolicy
     index?
   end
 
-  def new?
-    index?
-  end
-
-  def edit?
-    # only allow owner of the comment to edit to maintain authenticity of the message
-    record.user == user
-  end
-
   def create?
-    index?
+    return true if user.admin?
+
+    return true if user.manager? && record.project.manager_user_id == user.id
+
+    return true if user.member? && user.projects.include?(record.project)
+
+    false
+  end
+
+  def new?
+    create?
   end
 
   def update?
-    edit?
+    create?
+  end
+
+  def edit?
+    create?
   end
 
   def destroy?

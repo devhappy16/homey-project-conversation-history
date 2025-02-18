@@ -8,15 +8,7 @@
     <%= project.status %>
   </p>
   <p class="my-3">
-    <strong class="font-medium mb-1">Start date:</strong>
-    <%= project.start_date %>
-  </p>
-  <p class="my-3">
-    <strong class="font-medium mb-1">End date:</strong>
-    <%= project.end_date %>
-  </p>
-  <p class="my-3">
-    <strong class="block font-medium mb-1">Description:</strong>
-    <%= project.description.truncate(100) %>
+    <strong class="font-medium mb-1">Manager:</strong>
+    <%= project.manager_user.email_address %>
   </p>
 </div>
