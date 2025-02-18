@@ -1,5 +1,6 @@
 class Project < ApplicationRecord
-  belongs_to :project_users, optional: true
+  belongs_to :manager_user, class_name: "User", optional: true, foreign_key: "manager_user_id"
+  has_many :project_users
   has_many :users, through: :project_users
   has_many :project_conversation_histories
   has_many :comments
