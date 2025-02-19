@@ -1,24 +1,13 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+- Ruby version 3.4.1
+- Rails version 8.0.1
 
-Things you may want to cover:
+# RUNNING IN DEVELOPMENT ENVIRONMENT
+- install the specified ruby and rails version
+- RUN `bundle install`
+- RUN `rails db:create db:migrate db:seed`
+- Find the user emails and their credentials in `seeds.rb`
+- RUN `bin/dev`
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- You should be good to go (fingers crossed)
