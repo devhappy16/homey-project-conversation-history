@@ -1,8 +1,8 @@
 class ProjectPolicy < ApplicationPolicy
   # index? handled by policy_scope
-  # def index?
-  #   user.admin? || (record.manager_user_id == user.id) || (user.projects.include? record)
-  # end
+  def index?
+    true
+  end
 
   def show?
     user.admin? || (record.manager_user_id == user.id) || (user.projects.include? record)
