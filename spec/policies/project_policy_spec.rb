@@ -14,23 +14,30 @@ RSpec.describe ProjectPolicy do
     Project.destroy_all
   end
 
-  describe "#index?" do
-    it "allows access to all users governed by scope" do
-      expect(ProjectPolicy.new(admin, @project).index?).to be true
+  describe "scope" do
+    let!(:admin_project) { create(:project, name: "Admin Project") }
+    let!(:manager_project) { create(:project, name: "Manager Project", manager_user_id: manager.id) }
+    let!(:member_project) { create(:project, name: "Member Project") }
 
-      # manager not assigned to project
-      expect(ProjectPolicy.new(manager, @project).index?).to be false
+    before do
+      ProjectUser.create(project: member_project, user: member)
+    end
 
-      @project.update(manager_user_id: manager.id)
-      # after manager assignment to project
-      expect(ProjectPolicy.new(manager, @project).index?).to be true
+    it "shows all projects to admin" do
+      scope = Pundit.policy_scope!(admin, Project)
+      expect(scope).to include(@project, admin_project, manager_project, member_project)
+    end
 
-      # member not assigned to project
-      expect(ProjectPolicy.new(member, @project).index?).to be false
+    it "shows only managed projects to manager" do
+      scope = Pundit.policy_scope!(manager, Project)
+      expect(scope).to include(manager_project)
+      expect(scope).not_to include(admin_project, member_project)
+    end
 
-      ProjectUser.create(project_id: @project.id, user_id: member.id)
-      # after member assignment to project
-      expect(ProjectPolicy.new(member, @project).index?).to be true
+    it "shows only member projects to member" do
+      scope = Pundit.policy_scope!(member, Project)
+      expect(scope).to include(member_project)
+      expect(scope).not_to include(admin_project, manager_project)
     end
   end
 

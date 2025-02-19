@@ -1,10 +1,11 @@
 class ProjectPolicy < ApplicationPolicy
-  def index?
-    user.admin? || (record.manager_user_id == user.id) || (user.projects.include? record)
-  end
+  # index? handled by policy_scope
+  # def index?
+  #   user.admin? || (record.manager_user_id == user.id) || (user.projects.include? record)
+  # end
 
   def show?
-    index?
+    user.admin? || (record.manager_user_id == user.id) || (user.projects.include? record)
   end
 
   def create?
@@ -34,14 +35,13 @@ class ProjectPolicy < ApplicationPolicy
     end
 
     def resolve
-      # if user.admin?
-      #   scope.all
-      # elsif user.manager?
-      #   scope.where(manager_user_id: user.id)
-      # else # user.member?
-      #   user.projects
-      # end
-      scope.all
+      if user.admin?
+        scope.all
+      elsif user.manager?
+        scope.where(manager_user_id: user.id)
+      else # user.member?
+        user.projects
+      end
     end
 
     private
