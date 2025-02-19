@@ -5,6 +5,8 @@ class Project < ApplicationRecord
   has_many :project_conversation_histories
   has_many :comments
 
+  validates :name, presence: true
+
   enum :status, [ :todo, :active, :completed ]
 
   after_update :create_status_change_conversation_history, if: :saved_change_to_status?
