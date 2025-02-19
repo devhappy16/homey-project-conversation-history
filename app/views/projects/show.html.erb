@@ -10,20 +10,20 @@
   <%= render @project %>
 
   <p class="my-3">
-    <strong class="font-medium mb-1">Start date:</strong>
+    <strong class="font-bold mb-1">Start date:</strong>
     <%= @project.start_date %>
   </p>
   <p class="my-3">
-    <strong class="font-medium mb-1">End date:</strong>
+    <strong class="font-bold mb-1">End date:</strong>
     <%= @project.end_date %>
   </p>
   <p class="my-3">
-    <strong class="block font-medium mb-1">Description:</strong>
+    <strong class="block font-bold mb-1">Description:</strong>
     <%= @project.description.truncate(100) %>
   </p>
 
   <% if @project.users.count > 0 %>
-    <strong class="block font-medium mb-1">Members:</strong>
+    <strong class="block font-bold mb-1">Members:</strong>
     <% @project.users.each_with_index do |user, index| %>
       <p class="my-3">
         <%= "#{index+1}. #{user.email_address}" %>
@@ -31,14 +31,18 @@
     <% end %>
   <% end %>
 
-  <%= link_to "Edit this project", edit_project_path(@project), class: "mt-2 rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 inline-block font-medium text-gray-100" %>
+  <% if Current.user.admin? || (@project.manager_user_id == Current.user.id) %>
+    <%= link_to "Edit this project", edit_project_path(@project), class: "mt-2 rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 inline-block font-medium text-gray-100" %>
+  <% end %>
 
   <%= link_to "New Comment", new_project_comment_path(@project), class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 inline-block font-medium text-gray-100" %>
   <%= link_to "Show All Comments", project_comments_path(@project), class: "rounded-md px-3.5 py-2.5 bg-gray-300 hover:bg-gray-200 inline-block font-medium" %>
 
-  <div class="inline-block">
-    <%= button_to "Delete this project", @project, method: :delete, class: "mt-2 rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium" %>
-  </div>
+  <% if Current.user.admin? %>
+    <div class="inline-block">
+      <%= button_to "Delete this project", @project, method: :delete, class: "mt-2 rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium" %>
+    </div>
+  <% end %>
 
   <% if @project.project_conversation_histories.present? %>
     <div class="text-center">
