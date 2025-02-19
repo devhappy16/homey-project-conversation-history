@@ -10,24 +10,30 @@
 
 puts ">>>> Running initial seed."
 
-User.create(email_address: "admin@homeyproject.com", password: "base8848", role: User.roles[:admin])
+if User.admin.count.zero?
+  User.create(email_address: "admin@homeyproject.com", password: "base8848", role: User.roles[:admin])
+end
 
-User.create(email_address: "manager1@homeyproject.com", password: "base8848", role: User.roles[:manager])
-User.create(email_address: "manager2@homeyproject.com", password: "base8848", role: User.roles[:manager])
-User.create(email_address: "manager3@homeyproject.com", password: "base8848", role: User.roles[:manager])
+if User.manager.count != 3
+  User.create(email_address: "manager1@homeyproject.com", password: "base8848", role: User.roles[:manager])
+  User.create(email_address: "manager2@homeyproject.com", password: "base8848", role: User.roles[:manager])
+  User.create(email_address: "manager3@homeyproject.com", password: "base8848", role: User.roles[:manager])
+end
 
-User.create(email_address: "member1@homeyproject.com", password: "base8848", role: User.roles[:member])
-User.create(email_address: "member2@homeyproject.com", password: "base8848", role: User.roles[:member])
-User.create(email_address: "member3@homeyproject.com", password: "base8848", role: User.roles[:member])
-User.create(email_address: "member4@homeyproject.com", password: "base8848", role: User.roles[:member])
-User.create(email_address: "member5@homeyproject.com", password: "base8848", role: User.roles[:member])
-User.create(email_address: "member6@homeyproject.com", password: "base8848", role: User.roles[:member])
-User.create(email_address: "member7@homeyproject.com", password: "base8848", role: User.roles[:member])
-User.create(email_address: "member8@homeyproject.com", password: "base8848", role: User.roles[:member])
-User.create(email_address: "member9@homeyproject.com", password: "base8848", role: User.roles[:member])
-User.create(email_address: "member10@homeyproject.com", password: "base8848", role: User.roles[:member])
+if User.member.count != 10
+  User.create(email_address: "member1@homeyproject.com", password: "base8848", role: User.roles[:member])
+  User.create(email_address: "member2@homeyproject.com", password: "base8848", role: User.roles[:member])
+  User.create(email_address: "member3@homeyproject.com", password: "base8848", role: User.roles[:member])
+  User.create(email_address: "member4@homeyproject.com", password: "base8848", role: User.roles[:member])
+  User.create(email_address: "member5@homeyproject.com", password: "base8848", role: User.roles[:member])
+  User.create(email_address: "member6@homeyproject.com", password: "base8848", role: User.roles[:member])
+  User.create(email_address: "member7@homeyproject.com", password: "base8848", role: User.roles[:member])
+  User.create(email_address: "member8@homeyproject.com", password: "base8848", role: User.roles[:member])
+  User.create(email_address: "member9@homeyproject.com", password: "base8848", role: User.roles[:member])
+  User.create(email_address: "member10@homeyproject.com", password: "base8848", role: User.roles[:member])
+end
 
-Project.create(name: "First Homey Project", description: "A sample project.", status: Project.statuses[:todo], manager_user_id: User.second.id)
-
-# assign admin user to the project
-ProjectUser.create(project_id: Project.first.id, user_id: User.second.id)
+if Project.count.zero?
+  Project.create(name: "First Homey Project", description: "A sample project.", status: Project.statuses[:todo], manager_user_id: User.manager.first.id)
+  ProjectUser.create(project_id: Project.first.id, user_id: User.member.first.id)
+end

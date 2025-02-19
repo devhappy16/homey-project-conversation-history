@@ -3,7 +3,7 @@
 set -o errexit
 
 bundle install
-bundle exec rails generate solid_cache:install
 bundle exec rake assets:precompile
 bundle exec rake assets:clean
-bundle exec rake db:migrate
+bundle exec rails db:migrate
+bundle exec rails db:seed # seed values are limited in seeds.rb temporarily
