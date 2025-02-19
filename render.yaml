@@ -1,0 +1,18 @@
+databases:
+  - name: homey_project_conversation_history
+    databaseName: homey_project_conversation_history_production
+    user: homey_db_user
+
+services:
+  - type: web
+    name: homey-project
+    env: ruby
+    buildCommand: "./bin/render-build.sh"
+    startCommand: "bundle exec puma -C config/puma.rb"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: homey_project_conversation_history
+          property: connectionString
+      - key: RAILS_MASTER_KEY
+        sync: false
